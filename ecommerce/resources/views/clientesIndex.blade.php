@@ -19,13 +19,10 @@
             <th scope="row">{{ $cli->cpf }}</th>
             <th scope="row">{{ $cli->endereco }}</th>
             <th scope="row">{{ $cli->telefone }}</th>
+            <a  href="{{ route('clientes.edit', $cli->cod) }}"><button type="button" class="btn-solid theme-primary">Editar</button></a> 
         </tr>
         @endforeach
-      
-    
-   
-   
-    
+     
   </tbody>
 </table>
 @endsection
