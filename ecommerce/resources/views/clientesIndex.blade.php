@@ -20,7 +20,8 @@
             <th scope="row">{{ $cli->endereco }}</th>
             <th scope="row">{{ $cli->telefone }}</th>
             <a  href="{{ route('clientes.edit', $cli->cod) }}"><button type="button" class="btn-solid theme-primary">Editar</button></a> 
-        </tr>
+            <a  href="{{ route('clientes.show', $cli->cod) }}"><button type="button" class="btn-solid theme-primary">Excluir</button></a> 
+          </tr>
         @endforeach
      
   </tbody>

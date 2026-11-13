@@ -43,7 +43,8 @@ class ClienteController extends Controller
      */
     public function show(string $id)
     {
-        return view('cliente.show', compact('cliente'));
+        $cliente = Cliente::find($id);
+        return view('clienteShow', compact('cliente'));
     }
 
     /**
@@ -58,24 +59,26 @@ class ClienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cliente $clientes)
+    public function update(Request $request, string $id)
     {
+        $cliente = Cliente::findOrFail($id);
          $request->validate([
             'nome'=>'required|string|max:100',
             'cpf'=>'nullable|string|max:11',
             'telefone'=>'nullable|string|max:20',
             'endereco'=>'nullable|string|max:256'
         ]);
-        $clientes->update($request->all());
+        $cliente->update($request->all());
         return redirect()->route('clientes.index')->with('success', 'Cliente atualizado');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cliente $clientes)
+    public function destroy(string $id)
     {
-        $clientes->delete();
+        $cliente = Cliente::findOrFail($id);
+        $cliente->delete();
         return redirect()->route('clientes.index')->with('success', 'Cliente removido');
     }
 }
