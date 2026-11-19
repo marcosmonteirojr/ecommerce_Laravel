@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
 {
@@ -62,12 +63,20 @@ class ClienteController extends Controller
     public function update(Request $request, string $id)
     {
         $cliente = Cliente::findOrFail($id);
-         $request->validate([
-            'nome'=>'required|string|max:100',
-            'cpf'=>'nullable|string|max:11',
-            'telefone'=>'nullable|string|max:20',
-            'endereco'=>'nullable|string|max:256'
-        ]);
+        $validacao = Validator::make($request->all(), [
+            'nome'=> 'required|max:30|min:3',
+            'cpf'=>'required|min:11|max:11',
+            'endereco'=>'nullable',
+            'telefone'=>'nullable'
+        ],
+        [
+            'nome.required'=>'O nome deve ser preenchido',
+            'nome.max'=>'O nome nao pode ultrapassar 30 caracteres'
+        ]
+        );
+        if ($validacao->fails()) {
+            return redirect()->back()->withErrors($validacao)->withInput();
+        }
         $cliente->update($request->all());
         return redirect()->route('clientes.index')->with('success', 'Cliente atualizado');
     }

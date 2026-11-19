@@ -1,5 +1,19 @@
 @extends('layout')
 @section('conteudo')
+@if(session()->has('message'))
+{{ session()->get('message') }}
+@endif
+@if($errors->any())
+<div class="alert alert-danger">
+  <ul>
+    @foreach($errors->all() as $erro)
+      <li>
+        {{ $erro }}
+      </li>
+      @endforeach
+  </ul>
+</div>
+@endif
 <form action="{{route("clientes.update",$cliente->cod) }}" method="POST">
 @csrf
 @method('PUT')
